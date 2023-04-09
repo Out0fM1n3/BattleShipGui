@@ -1,22 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.ComponentModel.Design;
-using System.Data;
-using System.Diagnostics;
 using System.Drawing;
-using System.Drawing.Text;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Windows.Forms.VisualStyles;
 
 namespace BattleShipGui
 {
     public partial class Game : Form
     {
-        private int[] shipSizes = new int[] { 4, 3, 3, 2, 2, 2 };
+        private int[] shipSizes = new int[] { 4, 3, 3, 2, 2, 2, 1, 1, 1, 1 };
         private int currentShipIndex = 0;
         private int currentShipSize = 0;
         private bool[,] field = new bool[10, 10];

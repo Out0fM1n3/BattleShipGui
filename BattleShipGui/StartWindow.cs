@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace BattleShipGui
 {
-    public partial class Form1 : Form
+    public partial class StartWindow : Form
     {
-        public Form1()
+        public StartWindow()
         {
             InitializeComponent();
         }
@@ -20,7 +20,7 @@ namespace BattleShipGui
         private void PlayBtn_Click(object sender, EventArgs e)
         {
             this.Hide();
-            new Game().Show();
+            new Editor().Show();
         }
     }
 }

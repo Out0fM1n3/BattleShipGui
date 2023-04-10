@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
 namespace BattleShipGui
 {
-    public partial class Game : Form
+    public partial class Editor : Form
     {
         private int[] shipSizes = new int[] { 4, 3, 3, 2, 2, 2, 1, 1, 1, 1 };
         private int currentShipIndex = 0;
@@ -14,7 +15,7 @@ namespace BattleShipGui
         private Label shipsLabel;
 
 
-        public Game()
+        public Editor()
         {
             InitializeComponent();
             CreateButtonField(10, 10);
@@ -115,6 +116,8 @@ namespace BattleShipGui
             if (currentShipIndex == shipSizes.Length)
             {
                 MessageBox.Show("Игра началась!");
+                Game gameForm = new Game((bool[,])field.Clone());
+                gameForm.Show();
             }
             else
             {

@@ -1,6 +1,6 @@
 ﻿namespace BattleShipGui
 {
-    partial class Form1
+    partial class StartWindow
     {
         /// <summary>
         /// Обязательная переменная конструктора.
@@ -67,9 +67,11 @@
             // 
             // PlayBtn
             // 
-            this.PlayBtn.Location = new System.Drawing.Point(23, 208);
+            this.PlayBtn.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.PlayBtn.Location = new System.Drawing.Point(90, 275);
+            this.PlayBtn.Margin = new System.Windows.Forms.Padding(70);
             this.PlayBtn.Name = "PlayBtn";
-            this.PlayBtn.Size = new System.Drawing.Size(75, 23);
+            this.PlayBtn.Size = new System.Drawing.Size(254, 45);
             this.PlayBtn.TabIndex = 1;
             this.PlayBtn.Text = "Play!";
             this.PlayBtn.UseVisualStyleBackColor = true;

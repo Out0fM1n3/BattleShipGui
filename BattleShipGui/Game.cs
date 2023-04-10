@@ -19,12 +19,10 @@ namespace BattleShipGui
             InitializeComponent();
             CreateGameField(field);
             CreateAndFillSecondGameField();
-            // Используйте массив field для создания поля с уже расставленными кораблями
         }
         private void CreateGameField(bool[,] field)
         {
-            // Создайте поле кнопок так же, как в методе CreateButtonField
-            // ...
+
             string Alphabet = "ABCDRFGHIJ";
             for (int i = 0; i < 10; i++)
             {
@@ -60,16 +58,12 @@ namespace BattleShipGui
                     this.Controls.Add(button);
                 }
             }
-            // Затем используйте массив field для определения расположения кораблей:
-            for (int i = 0; i < field.GetLength(0); i++)
+            for (int i = 0; i < 10; i++)
             {
-                for (int j = 0; j < field.GetLength(1); j++)
+                for (int j = 0; j < 10; j++)
                 {
                     if (field[i, j])
                     {
-                        // Клетка [i, j] содержит корабль
-                        // Измените свойства соответствующей кнопки, чтобы отобразить корабль
-                        // Например:
                         int index = i * 10 + j;
                         this.Controls[index].BackColor = Color.Blue;
                         this.Controls[index].Click += BotHit_Click;
@@ -128,17 +122,14 @@ namespace BattleShipGui
                     this.Controls.Add(button);
                 }
             }
-            // Затем используйте массив field для определения расположения кораблей:
-            for (int i = 0; i < field.GetLength(0); i++)
+            for (int i = 0; i < 10; i++)
             {
-                for (int j = 0; j < field.GetLength(1); j++)
+                for (int j = 0; j < 10; j++)
                 {
                     if (field[i, j])
                     {
-                        // Клетка [i, j] содержит корабль
-                        // Измените свойства соответствующей кнопки, чтобы отобразить корабль
                         int index = (10 + i) * 10 + j;
-                        this.Controls[index].BackColor = Color.Yellow; //DEBUG DELETE THIS 
+                        this.Controls[index].BackColor = Color.Yellow; //DEBUG HIGHLIGHT BOT SHIP'S DELETE THIS
                         this.Controls[index].Click += ButtonHit_Click;
                     }
                     else

@@ -70,13 +70,11 @@ namespace BattleShipGui
                     {
                         int index = i * 10 + j;
                         this.Controls[index].BackColor = Color.Blue;
-                        ArePlayerAllShipsDestroyed(field);
                         this.Controls[index].Click += BotHit_Click;
                     }
                     else
                     {
                         int index = i * 10 + j;
-                        ArePlayerAllShipsDestroyed(field);
                         this.Controls[index].Click += BotMiss_Click;
                     }
                 }
@@ -188,22 +186,6 @@ namespace BattleShipGui
             button.Text = "⚫";
             button.Font = new Font("Microsoft Sans Serif", 19);
             button.Enabled = false;
-        }
-
-        private bool ArePlayerAllShipsDestroyed(bool[,] field)
-        {
-            for (int i = 0; i < field.GetLength(0); i++)
-            {
-                for (int j = 0; j < field.GetLength(1); j++)
-                {
-                    if (field[i, j])
-                    {
-                        return false;
-                    }
-                }
-            }
-            MessageBox.Show("Игрок проиграл");
-            return true;
         }
 
         private bool[,] GenerateRandomField()

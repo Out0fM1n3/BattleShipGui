@@ -14,11 +14,15 @@ namespace BattleShipGui
     public partial class Game : Form
     {
         int[] shipSizes = new int[] { 4, 3, 3, 2, 2, 2, 1, 1, 1, 1 };
+        Random rnd = new Random();
+        bool[,] usedCoordinates = new bool[10, 10];
+
         public Game(bool[,] field)
         {
             InitializeComponent();
             CreateGameField(field);
             CreateAndFillSecondGameField();
+
         }
         private void CreateGameField(bool[,] field)
         {
@@ -66,11 +70,13 @@ namespace BattleShipGui
                     {
                         int index = i * 10 + j;
                         this.Controls[index].BackColor = Color.Blue;
+                        ArePlayerAllShipsDestroyed(field);
                         this.Controls[index].Click += BotHit_Click;
                     }
                     else
                     {
                         int index = i * 10 + j;
+                        ArePlayerAllShipsDestroyed(field);
                         this.Controls[index].Click += BotMiss_Click;
                     }
                 }
@@ -158,12 +164,15 @@ namespace BattleShipGui
         }
         private void BotShoot()
         {
-                Random rnd = new Random();
-                int x = rnd.Next(1, 10);
-                int y = rnd.Next(1, 10);
-                int index = y * 10 + x;
-                Button button = this.Controls[index] as Button;
-                button.PerformClick();
+            int x, y;
+            do
+            {
+                x = rnd.Next(1, 10);
+                y = rnd.Next(1, 10);
+            } while (usedCoordinates[x - 1, y - 1]);
+            usedCoordinates[x - 1, y - 1] = true;
+            Button button = this.Controls[y * 10 + x] as Button;
+            button.PerformClick();
         }
         private void BotHit_Click(object sender, EventArgs e)
         {
@@ -180,6 +189,23 @@ namespace BattleShipGui
             button.Font = new Font("Microsoft Sans Serif", 19);
             button.Enabled = false;
         }
+
+        private bool ArePlayerAllShipsDestroyed(bool[,] field)
+        {
+            for (int i = 0; i < field.GetLength(0); i++)
+            {
+                for (int j = 0; j < field.GetLength(1); j++)
+                {
+                    if (field[i, j])
+                    {
+                        return false;
+                    }
+                }
+            }
+            MessageBox.Show("Игрок проиграл");
+            return true;
+        }
+
         private bool[,] GenerateRandomField()
         {
             bool[,] field = new bool[10, 10];

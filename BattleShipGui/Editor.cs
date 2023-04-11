@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -116,8 +115,6 @@ namespace BattleShipGui
             if (currentShipIndex == shipSizes.Length)
             {
                 new Game(field).Show();
-                //Game gameForm = new Game((bool[,])field);
-                //gameForm.Show();
                 this.Hide();
             }
             else
@@ -216,105 +213,6 @@ namespace BattleShipGui
             }
             return false;
         }
-        //private bool CanPlaceShip(int row, int column)
-        //{
-        //    if (isVertical)
-        //    {
-        //        if (row + currentShipSize > 10)
-        //        {
-        //            return false;
-        //        }
-
-        //        for (int i = row; i < row + currentShipSize; i++)
-        //        {
-        //            if (field[i, column])
-        //            {
-        //                return false;
-        //            }
-
-        //            if (column > 0 && field[i, column - 1])
-        //            {
-        //                return false;
-        //            }
-
-        //            if (column < 10 - 1 && field[i, column + 1])
-        //            {
-        //                return false;
-        //            }
-        //        }
-
-        //        if (row > 0)
-        //        {
-        //            for (int j = Math.Max(column - 1, 0); j <= Math.Min(column + currentShipSize - 1, 10 - 1); j++)
-        //            {
-        //                if (field[row - 1, j])
-        //                {
-        //                    return false;
-        //                }
-        //            }
-        //        }
-
-        //        if (row + currentShipSize < 10)
-        //        {
-        //            for (int j = Math.Max(column - 1, 0); j <= Math.Min(column + currentShipSize - 1, 10 - 1); j++)
-        //            {
-        //                if (field[row + currentShipSize, j])
-        //                {
-        //                    return false;
-        //                }
-        //            }
-        //        }
-        //    }
-        //    else
-        //    {
-        //        if (column + currentShipSize > 10)
-        //        {
-        //            return false;
-        //        }
-
-        //        for (int i = column; i < column + currentShipSize; i++)
-        //        {
-        //            if (field[row, i])
-        //            {
-        //                return false;
-        //            }
-
-        //            if (row > 0 && field[row - 1, i])
-        //            {
-        //                return false;
-        //            }
-
-        //            if (row < 10 - 1 && field[row + 1, i])
-        //            {
-        //                return false;
-        //            }
-        //        }
-
-        //        if (column > 0)
-        //        {
-        //            for (int j = Math.Max(row - 1, 0); j <= Math.Min(row + currentShipSize - 1, 10 - 1); j++)
-        //            {
-        //                if (field[j, column - 1])
-        //                {
-        //                    return false;
-        //                }
-        //            }
-        //        }
-
-        //        if (column + currentShipSize < 10)
-        //        {
-        //            for (int j = Math.Max(row - 1, 0); j <= Math.Min(row + currentShipSize - 1, 10 - 1); j++)
-        //            {
-        //                if (field[j, column + currentShipSize])
-        //                {
-        //                    return false;
-        //                }
-        //            }
-        //        }
-        //    }
-
-        //    return true;
-        //}
 
         private void PlaceShip(int row, int column)
         {

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Reflection;
@@ -16,6 +17,10 @@ namespace BattleShipGui
         int[] shipSizes = new int[] { 4, 3, 3, 2, 2, 2, 1, 1, 1, 1 };
         Random rnd = new Random();
         bool[,] usedCoordinates = new bool[10, 10];
+
+        int blueButtonCount = 20;
+        int blueButtonXCount = 0;
+        int botButtonXCount = 0;
 
         public Game(bool[,] field)
         {
@@ -133,7 +138,7 @@ namespace BattleShipGui
                     if (field[i, j])
                     {
                         int index = (10 + i) * 10 + j;
-                        this.Controls[index].BackColor = Color.Yellow; //DEBUG HIGHLIGHT BOT SHIP'S DELETE THIS
+                        //this.Controls[index].BackColor = Color.Yellow; //DEBUG HIGHLIGHTING OF BOT SHIPS, UNCOMMENT TO ENABLE THIS
                         this.Controls[index].Click += ButtonHit_Click;
                     }
                     else
@@ -149,8 +154,17 @@ namespace BattleShipGui
             Button button = sender as Button;
             button.Text = "×";
             button.Font = new Font("Microsoft Sans Serif", 24);
+            button.BackColor = Color.PaleVioletRed;
             button.Enabled = false;
-            BotShoot();
+            botButtonXCount++;
+            if (blueButtonCount == botButtonXCount)
+            {
+                Win();
+            }
+            else
+            {
+                BotShoot();
+            }
         }
         private void ButtonMiss_Click(object sender, EventArgs e)
         {
@@ -159,6 +173,14 @@ namespace BattleShipGui
             button.Font = new Font("Microsoft Sans Serif", 19);
             button.Enabled = false;
             BotShoot();
+        }
+        private void Win()
+        {
+            MessageBox.Show("You win!");
+        }
+        private void Defeat()
+        {
+            MessageBox.Show("Defeat!");
         }
         private void BotShoot()
         {
@@ -170,7 +192,14 @@ namespace BattleShipGui
             } while (usedCoordinates[x - 1, y - 1]);
             usedCoordinates[x - 1, y - 1] = true;
             Button button = this.Controls[y * 10 + x] as Button;
-            button.PerformClick();
+            if (blueButtonCount == blueButtonXCount)
+            {
+                Defeat();
+            }
+            else
+            {
+                button.PerformClick();
+            }
         }
         private void BotHit_Click(object sender, EventArgs e)
         {
@@ -178,6 +207,8 @@ namespace BattleShipGui
             button.Text = "×";
             button.Font = new Font("Microsoft Sans Serif", 24);
             button.Enabled = false;
+            button.BackColor = Color.PaleVioletRed;
+            blueButtonXCount++;
 
         }
         private void BotMiss_Click(object sender, EventArgs e)
@@ -259,6 +290,11 @@ namespace BattleShipGui
                     field[x, i] = true;
                 }
             }
+        }
+
+        private void Game_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Application.Exit();
         }
     }
 }

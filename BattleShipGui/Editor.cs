@@ -11,7 +11,7 @@ namespace BattleShipGui
         private int currentShipIndex = 0;
         private int currentShipSize = 0;
         private bool[,] field = new bool[10, 10];
-        private bool isVertical = true;
+        private bool horizontal = false;
         private Label shipsLabel;
 
 
@@ -108,16 +108,17 @@ namespace BattleShipGui
         }
         private void RotateButton_Click(object sender, EventArgs e)
         {
-            isVertical = !isVertical;
+            horizontal = !horizontal;
             UnhighlightAll();
         }
         private void StartButton_Click(object sender, EventArgs e)
         {
             if (currentShipIndex == shipSizes.Length)
             {
-                MessageBox.Show("Игра началась!");
-                Game gameForm = new Game((bool[,])field.Clone());
-                gameForm.Show();
+                new Game(field).Show();
+                //Game gameForm = new Game((bool[,])field);
+                //gameForm.Show();
+                this.Hide();
             }
             else
             {
@@ -129,7 +130,7 @@ namespace BattleShipGui
         {
             if (e.KeyCode == Keys.R)
             {
-                isVertical = !isVertical;
+                horizontal = !horizontal;
                 UnhighlightAll();
             }
         }
@@ -147,7 +148,7 @@ namespace BattleShipGui
                 int row = button.Top / button.Height;
                 int column = button.Left / button.Width;
 
-                if (CanPlaceShip(row, column))
+                if (CanPlaceShip(field, row, column, currentShipSize, horizontal))
                 {
                     PlaceShip(row, column);
                     currentShipIndex++;
@@ -171,7 +172,7 @@ namespace BattleShipGui
                 int row = button.Top / button.Height;
                 int column = button.Left / button.Width;
 
-                if (CanPlaceShip(row, column))
+                if (CanPlaceShip(field, row, column, currentShipSize, horizontal))
                 {
                     HighlightShip(row, column);
                 }
@@ -183,109 +184,141 @@ namespace BattleShipGui
             UnhighlightAll();
         }
 
-        private bool CanPlaceShip(int row, int column)
+        private bool CanPlaceShip(bool[,] field, int row, int column, int shipSize, bool horizontal)
         {
-            if (isVertical)
+            if (horizontal)
             {
-                if (row + currentShipSize > 10)
+                if (row + shipSize > 10) return false;
+                for (int i = row; i < row + shipSize; i++)
                 {
-                    return false;
-                }
-
-                for (int i = row; i < row + currentShipSize; i++)
-                {
-                    if (field[i, column])
-                    {
-                        return false;
-                    }
-
-                    if (column > 0 && field[i, column - 1])
-                    {
-                        return false;
-                    }
-
-                    if (column < 10 - 1 && field[i, column + 1])
-                    {
-                        return false;
-                    }
-                }
-
-                if (row > 0)
-                {
-                    for (int j = Math.Max(column - 1, 0); j <= Math.Min(column + currentShipSize - 1, 10 - 1); j++)
-                    {
-                        if (field[row - 1, j])
-                        {
-                            return false;
-                        }
-                    }
-                }
-
-                if (row + currentShipSize < 10)
-                {
-                    for (int j = Math.Max(column - 1, 0); j <= Math.Min(column + currentShipSize - 1, 10 - 1); j++)
-                    {
-                        if (field[row + currentShipSize, j])
-                        {
-                            return false;
-                        }
-                    }
+                    if (IsOccupiedOrAdjacent(field, i, column)) return false;
                 }
             }
             else
             {
-                if (column + currentShipSize > 10)
+                if (column + shipSize > 10) return false;
+                for (int i = column; i < column + shipSize; i++)
                 {
-                    return false;
-                }
-
-                for (int i = column; i < column + currentShipSize; i++)
-                {
-                    if (field[row, i])
-                    {
-                        return false;
-                    }
-
-                    if (row > 0 && field[row - 1, i])
-                    {
-                        return false;
-                    }
-
-                    if (row < 10 - 1 && field[row + 1, i])
-                    {
-                        return false;
-                    }
-                }
-
-                if (column > 0)
-                {
-                    for (int j = Math.Max(row - 1, 0); j <= Math.Min(row + currentShipSize - 1, 10 - 1); j++)
-                    {
-                        if (field[j, column - 1])
-                        {
-                            return false;
-                        }
-                    }
-                }
-
-                if (column + currentShipSize < 10)
-                {
-                    for (int j = Math.Max(row - 1, 0); j <= Math.Min(row + currentShipSize - 1, 10 - 1); j++)
-                    {
-                        if (field[j, column + currentShipSize])
-                        {
-                            return false;
-                        }
-                    }
+                    if (IsOccupiedOrAdjacent(field, row, i)) return false;
                 }
             }
-
             return true;
         }
 
+        private bool IsOccupiedOrAdjacent(bool[,] field, int row, int column)
+        {
+            for (int i = row - 1; i <= row + 1; i++)
+            {
+                for (int j = column - 1; j <= column + 1; j++)
+                {
+                    if (i >= 0 && i < 10 && j >= 0 && j < 10 && field[i, j]) return true;
+                }
+            }
+            return false;
+        }
+        //private bool CanPlaceShip(int row, int column)
+        //{
+        //    if (isVertical)
+        //    {
+        //        if (row + currentShipSize > 10)
+        //        {
+        //            return false;
+        //        }
+
+        //        for (int i = row; i < row + currentShipSize; i++)
+        //        {
+        //            if (field[i, column])
+        //            {
+        //                return false;
+        //            }
+
+        //            if (column > 0 && field[i, column - 1])
+        //            {
+        //                return false;
+        //            }
+
+        //            if (column < 10 - 1 && field[i, column + 1])
+        //            {
+        //                return false;
+        //            }
+        //        }
+
+        //        if (row > 0)
+        //        {
+        //            for (int j = Math.Max(column - 1, 0); j <= Math.Min(column + currentShipSize - 1, 10 - 1); j++)
+        //            {
+        //                if (field[row - 1, j])
+        //                {
+        //                    return false;
+        //                }
+        //            }
+        //        }
+
+        //        if (row + currentShipSize < 10)
+        //        {
+        //            for (int j = Math.Max(column - 1, 0); j <= Math.Min(column + currentShipSize - 1, 10 - 1); j++)
+        //            {
+        //                if (field[row + currentShipSize, j])
+        //                {
+        //                    return false;
+        //                }
+        //            }
+        //        }
+        //    }
+        //    else
+        //    {
+        //        if (column + currentShipSize > 10)
+        //        {
+        //            return false;
+        //        }
+
+        //        for (int i = column; i < column + currentShipSize; i++)
+        //        {
+        //            if (field[row, i])
+        //            {
+        //                return false;
+        //            }
+
+        //            if (row > 0 && field[row - 1, i])
+        //            {
+        //                return false;
+        //            }
+
+        //            if (row < 10 - 1 && field[row + 1, i])
+        //            {
+        //                return false;
+        //            }
+        //        }
+
+        //        if (column > 0)
+        //        {
+        //            for (int j = Math.Max(row - 1, 0); j <= Math.Min(row + currentShipSize - 1, 10 - 1); j++)
+        //            {
+        //                if (field[j, column - 1])
+        //                {
+        //                    return false;
+        //                }
+        //            }
+        //        }
+
+        //        if (column + currentShipSize < 10)
+        //        {
+        //            for (int j = Math.Max(row - 1, 0); j <= Math.Min(row + currentShipSize - 1, 10 - 1); j++)
+        //            {
+        //                if (field[j, column + currentShipSize])
+        //                {
+        //                    return false;
+        //                }
+        //            }
+        //        }
+        //    }
+
+        //    return true;
+        //}
+
         private void PlaceShip(int row, int column)
         {
-            if (isVertical)
+            if (horizontal)
             {
                 for (int i = row; i < row + currentShipSize; i++)
                 {
@@ -307,7 +340,7 @@ namespace BattleShipGui
 
         private void HighlightShip(int row, int column)
         {
-            if (isVertical)
+            if (horizontal)
             {
                 for (int i = row; i < row + currentShipSize; i++)
                 {
@@ -338,6 +371,11 @@ namespace BattleShipGui
                     }
                 }
             }
+        }
+
+        private void Editor_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Application.Exit();
         }
     }
 }

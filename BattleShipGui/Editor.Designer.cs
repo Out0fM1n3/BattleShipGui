@@ -30,13 +30,16 @@
         {
             this.SuspendLayout();
             // 
-            // Game
+            // Editor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Name = "Game";
+            this.ClientSize = new System.Drawing.Size(819, 401);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+            this.Name = "Editor";
             this.Text = "Game";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Editor_FormClosed);
             this.ResumeLayout(false);
 
         }
